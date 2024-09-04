@@ -1,0 +1,72 @@
+<app-loading />
+
+<mat-dialog-content>
+  <form
+    class="edit-course-form"
+    [formGroup]="form"
+  >
+    <h3>{{ data.title }}</h3>
+
+    <div class="form-control">
+      <label for="title">Course title:</label>
+
+      <input
+        id="title"
+        placeholder="Enter course title"
+        formControlName="title"
+      />
+    </div>
+
+    <div class="form-control">
+      <label for="longDescription">Course description:</label>
+
+      <textarea
+        id="longDescription"
+        placeholder="Enter course description"
+        formControlName="longDescription"
+      >
+      </textarea>
+    </div>
+
+    <div class="form-control">
+      <label for="category">Course category:</label>
+
+      <select
+        id="category"
+        formControlName="category"
+      >
+        <option value="BEGINNER">Beginners</option>
+
+        <option value="INTERMEDIATE">Intermediate</option>
+
+        <option value="ADVANCED">Advanced</option>
+      </select>
+    </div>
+
+    <div class="form-control">
+      <label for="iconUrl">Course image:</label>
+
+      <input
+        id="iconUrl"
+        placeholder="Enter course title"
+        formControlName="iconUrl"
+      />
+    </div>
+
+    <div class="form-actions">
+      <button
+        class="btn"
+        (click)="onSave()"
+      >
+        Save
+      </button>
+
+      <button
+        class="btn"
+        type="button"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>
