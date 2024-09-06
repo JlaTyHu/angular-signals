@@ -1,6 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { EditCourseDialogData } from '../../models/edit-course-dialog.data.model';
-import { MAT_DIALOG_DATA, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogContent,
+  MatDialogRef
+} from '@angular/material/dialog';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { CourseService } from '../../services/course.service';
@@ -19,7 +23,7 @@ export class EditCourseDialogComponent {
   readonly #fb = inject(FormBuilder);
   readonly #courseService = inject(CourseService);
 
-  form = this.#fb.group({
+  readonly form = this.#fb.group({
     title: [''],
     longDescription: [''],
     category: [''],
@@ -39,20 +43,35 @@ export class EditCourseDialogComponent {
     const newCourse = this.form.value as Partial<Course>;
 
     if (this.data.mode === 'update') {
-      await this.saveCourse(
-        this.data.course!.id,
-        newCourse
-      )
+      await this.saveCourse(this.data.course!.id, newCourse);
+    } else if (this.data.mode === 'create') {
+      await this.createCourse(newCourse);
+    } else {
+      console.error('The dialog mode type is not existing.');
+      alert('The dialog mode type is not existing.');
     }
   }
 
   async saveCourse(courseId: string, changes: Partial<Course>) {
     try {
-      const updatedCourse = await this.#courseService.saveCourse(courseId, changes);
+      const updatedCourse = await this.#courseService.saveCourse(
+        courseId,
+        changes
+      );
       this.#dialogRef.close(updatedCourse);
     } catch (error) {
       console.error(error);
       alert('Failed to updated the course');
+    }
+  }
+
+  async createCourse(course: Partial<Course>) {
+    try {
+      const newCourse = await this.#courseService.createCourse(course);
+      this.#dialogRef.close(newCourse);
+    } catch (error) {
+      console.error(error);
+      alert('Failed to create the course');
     }
   }
 

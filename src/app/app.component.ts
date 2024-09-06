@@ -5,6 +5,8 @@ import { MatIcon } from '@angular/material/icon';
 import { MatListItem, MatNavList } from '@angular/material/list';
 import { MatSidenavContainer, MatSidenav } from '@angular/material/sidenav';
 import { MatIconButton } from '@angular/material/button';
+import { LoadingComponent } from './components/loading/loading.component';
+import { MessagesComponent } from './components/messages/messages.component';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +20,9 @@ import { MatIconButton } from '@angular/material/button';
     MatSidenavContainer,
     MatIconButton,
     MatListItem,
-    MatSidenav
+    MatSidenav,
+    LoadingComponent,
+    MessagesComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

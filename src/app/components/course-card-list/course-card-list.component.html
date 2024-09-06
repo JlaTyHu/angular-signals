@@ -19,7 +19,7 @@
 
       <button class="btn" (click)="onEditCourse(course)">{{ 'edit' | uppercase }}</button>
 
-      <img src="/assets/icons/delete.svg" class="delete" />
+      <img src="/assets/icons/delete.svg" class="delete" (click)="onDeleteCourse(course.id)" />
     </div>
   </div>
 }

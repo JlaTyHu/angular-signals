@@ -14,6 +14,7 @@ import { openEditCourseDialog } from '../../utilities/open-edit-course-dialog';
 export class CourseCardListComponent {
   courses = input.required<Course[]>();
   courseUpdated = output<Course>();
+  courseIdDeleted = output<string>();
 
   #dialog = inject(MatDialog);
 
@@ -24,8 +25,10 @@ export class CourseCardListComponent {
       course
     });
 
-    console.log("@@ course ", newCourse)
-
     this.courseUpdated.emit(newCourse);
+  }
+
+  onDeleteCourse(courseId: string) {
+    this.courseIdDeleted.emit(courseId);
   }
 }
