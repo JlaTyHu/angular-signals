@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatIcon } from '@angular/material/icon';
@@ -7,6 +7,7 @@ import { MatSidenavContainer, MatSidenav } from '@angular/material/sidenav';
 import { MatIconButton } from '@angular/material/button';
 import { LoadingComponent } from './components/loading/loading.component';
 import { MessagesComponent } from './components/messages/messages.component';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -28,5 +29,13 @@ import { MessagesComponent } from './components/messages/messages.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+  readonly #loginService = inject(AuthService);
+  readonly isLoggedIn = this.#loginService.isLoggedIn;
+
   title = 'Angular Signals';
+
+
+  onLogout() {
+    this.#loginService.logout();
+  }
 }

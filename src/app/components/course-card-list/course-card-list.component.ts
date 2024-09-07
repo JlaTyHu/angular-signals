@@ -3,11 +3,12 @@ import { Course } from '../../models/course.model';
 import { UpperCasePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { openEditCourseDialog } from '../../utilities/open-edit-course-dialog';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-course-card-list',
   standalone: true,
-  imports: [UpperCasePipe],
+  imports: [UpperCasePipe, RouterLink],
   templateUrl: './course-card-list.component.html',
   styleUrl: './course-card-list.component.scss'
 })
@@ -24,6 +25,10 @@ export class CourseCardListComponent {
       title: 'Update Existing Course',
       course
     });
+
+    if (!newCourse) {
+      return;
+    }
 
     this.courseUpdated.emit(newCourse);
   }

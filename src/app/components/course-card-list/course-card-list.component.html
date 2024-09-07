@@ -15,11 +15,23 @@
     </div>
 
     <div class="course-actions">
-      <button class="btn">{{ 'view course' | uppercase }}</button>
+      <button
+        class="btn"
+        [routerLink]="['courses', course.id]"
+        >{{ 'view course' | uppercase }}</button
+      >
 
-      <button class="btn" (click)="onEditCourse(course)">{{ 'edit' | uppercase }}</button>
+      <button
+        class="btn"
+        (click)="onEditCourse(course)"
+        >{{ 'edit' | uppercase }}</button
+      >
 
-      <img src="/assets/icons/delete.svg" class="delete" (click)="onDeleteCourse(course.id)" />
+      <img
+        src="/assets/icons/delete.svg"
+        class="delete"
+        (click)="onDeleteCourse(course.id)"
+      />
     </div>
   </div>
 }

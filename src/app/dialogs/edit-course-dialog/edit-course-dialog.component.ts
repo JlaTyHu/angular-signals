@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { EditCourseDialogData } from '../../models/edit-course-dialog.data.model';
 import {
-  MAT_DIALOG_DATA,
+  MAT_DIALOG_DATA, MatDialogClose,
   MatDialogContent,
   MatDialogRef
 } from '@angular/material/dialog';
@@ -9,11 +9,21 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { LoadingComponent } from '../../components/loading/loading.component';
 import { CourseService } from '../../services/course.service';
 import { Course } from '../../models/course.model';
+import {
+  CourseCategoryComboBoxComponent
+} from '../../components/course-category-combo-box/course-category-combo-box.component';
+import { CourseCategory } from '../../models/course-category.model';
 
 @Component({
   selector: 'app-edit-course-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule, LoadingComponent, MatDialogContent],
+  imports: [
+    ReactiveFormsModule,
+    LoadingComponent,
+    MatDialogContent,
+    CourseCategoryComboBoxComponent,
+    MatDialogClose
+  ],
   templateUrl: './edit-course-dialog.component.html',
   styleUrl: './edit-course-dialog.component.scss'
 })
@@ -26,21 +36,23 @@ export class EditCourseDialogComponent {
   readonly form = this.#fb.group({
     title: [''],
     longDescription: [''],
-    category: [''],
     iconUrl: ['']
   });
+
+  readonly category = signal<CourseCategory>('BEGINNER');
 
   constructor() {
     this.form.patchValue({
       title: this.data.course?.title,
       longDescription: this.data.course?.longDescription,
-      category: this.data.course?.category,
       iconUrl: this.data.course?.iconUrl
     });
+    this.category.set(this.data.course?.category ?? 'BEGINNER');
   }
 
   async onSave() {
     const newCourse = this.form.value as Partial<Course>;
+    newCourse.category = this.category();
 
     if (this.data.mode === 'update') {
       await this.saveCourse(this.data.course!.id, newCourse);
@@ -73,9 +85,5 @@ export class EditCourseDialogComponent {
       console.error(error);
       alert('Failed to create the course');
     }
-  }
-
-  onClose() {
-    this.#dialogRef.close();
   }
 }
